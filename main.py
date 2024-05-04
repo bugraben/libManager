@@ -56,3 +56,33 @@ def add_item(table):
             else:
                 print('Bilgi bos gecilemez')
         print('Girdi eklendi.')
+
+
+# Borrow and Return functions
+
+
+def borrow_book(book_id):
+    """Function to borrow a book from the library using its ISBN id.
+    Args:
+        book_id(int): Book's ISBN id.
+    Returns: Strings with information about book's borrow status.
+    """
+
+    if book_id in table_library.keys() and table_library[book_id][1]:
+        table_library[book_id][1] = False
+        return f" {book_id} ISBN'li kitap iade edilmistir."
+    else:
+        return "Bu kitap mevcut değil veya ödünç alinmistir."
+
+
+def return_book(book_id):
+    """Function to return a borrowed book to the library by using ISBN id.
+    Args:
+        book_id(int): Book's ISBN id.
+    Returns: Strings with information about book's borrow and return status.
+    """
+    if book_id in table_library.keys() and not table_library[book_id][1]:
+        table_library[book_id][1] = True
+        return f"{book_id} ISBN'li kitap iade edilmistir."
+    else:
+        return "Bu kitap kütüphanemizde değil ya da ödünç alınmadı."
