@@ -364,19 +364,10 @@ table_books = {
         "location" : "E3",
         "status": 0
     },
-
-
-
-
-
-
-
-
-
-
-
 }
 
 total_books = len(table_books) - 1
 
 print("Total number of books :", total_books)
+
+
