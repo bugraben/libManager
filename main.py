@@ -435,31 +435,31 @@ def add_item(table):
 # Borrow and Return functions
 
 
-def borrow_book(book_id):
+def borrow_book(book_id: str):
     """Function to borrow a book from the library using its ISBN id.
     Args:
-        book_id(int): Book's ISBN id.
+        book_id(str): Book's ISBN id.
     Returns: Strings with information about book's borrow status.
     """
 
-    if book_id in table_library.keys() and table_library[book_id][1]:
-        table_library[book_id][1] = False
-        return f" {book_id} ISBN'li kitap iade edilmistir."
+    if book_id in table_books and table_books[book_id]["status"]:
+        table_books[book_id]["status"] = 0
+        print(f" {book_id} ISBN'li kitap odunc alinmistir.")
     else:
-        return "Bu kitap mevcut değil veya ödünç alinmistir."
+        print("Bu kitap mevcut değil veya ödünç alinmistir.")
 
 
-def return_book(book_id):
+def return_book(book_id: str):
     """Function to return a borrowed book to the library by using ISBN id.
     Args:
-        book_id(int): Book's ISBN id.
+        book_id(str): Book's ISBN id.
     Returns: Strings with information about book's borrow and return status.
     """
-    if book_id in table_library.keys() and not table_library[book_id][1]:
-        table_library[book_id][1] = True
-        return f"{book_id} ISBN'li kitap iade edilmistir."
+    if book_id in table_books and not table_books[book_id]["status"]:
+        table_books[book_id]["status"] = 1
+        print(f"{book_id} ISBN'li kitap iade edilmistir.")
     else:
-        return "Bu kitap kütüphanemizde değil ya da ödünç alınmadı."
+        print("Bu kitap kütüphanemizde değil ya da ödünç alınmadı.")
 
 
 # Boş bir sözlük oluştur
