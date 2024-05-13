@@ -1,0 +1,5 @@
+Buðra,Iþýkdemir,Bilgisayar Bilimleri
+Yakup Efe,Sarýkaya,Bilgisayar Bilimleri
+Gürkan,Yörükoðlu,Makine Mühendisliði
+Semih,Coþkun,Bilgisayar Mühendisliði
+yakup efe,sarýkaya,bilgisayar bilimleri
