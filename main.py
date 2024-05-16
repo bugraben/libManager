@@ -1,7 +1,8 @@
 # Digital library management system by Bugra, Ozgur, Talip, Yakup and Samet
 # Project for Computer Programming Lab Lecture
 
-from pynput import keyboard as kb
+import keyboard as kb
+from time import sleep
 
 table_books = {
     # STATUS 0 REPRESENTS THAT THE BOOK IN THE LIBRARY, OTHERWISE THE NAME OF THE BORROWER.
@@ -393,24 +394,26 @@ def get_item(table, query=None):
     if query is None:
         query = input('ID numarasi ya da bir arama ifadesi giriniz:')
 
-    try:
-        print(f'''===========
-ID: {query}
-Isim: {table[query]['name']}
-Yazar: {table[query]['author']}
-Yer: {table[query]['location']}
-Durum: {['Mevcut', f'{table[query]['status']} isimli kullanicida'][table[query]['status'] != 0]}
-===========
-''')
-    except KeyError:
-        print(f'{query} icin arama sonuclari listeleniyor:\n')
-        for id in table.keys():
-            for info in table[id].keys():
-                try:
-                    str(table[id][info]).index(query)
-                    get_item(table, id)
-                except ValueError:
-                    continue
+    if query:
+        try:
+            print(f'''===========
+    ID: {query}
+    Isim: {table[query]['name']}
+    Yazar: {table[query]['author']}
+    Yer: {table[query]['location']}
+    Durum: {['Mevcut', f'{table[query]['status']} isimli kullanicida'][table[query]['status'] != 0]}
+    ===========
+    ''')
+        except KeyError:
+            print(f'{query} icin arama sonuclari listeleniyor:\n')
+            for id in table.keys():
+                for info in table[id].keys():
+                    try:
+                        str(table[id][info]).index(query)
+                        get_item(table, id)
+                        return id
+                    except ValueError:
+                        continue
 
 def add_item(table):
     '''
@@ -448,6 +451,16 @@ def borrow_book(book_id: str, member: str):
         book_id(str): Book's ISBN id.
     Returns: Strings with information about book's borrow status.
     """
+    book_id = input('Odunc verilen kitap ID:')
+    if book_id not in table_books.keys():
+        print('Bu kitap mevcut degildir')
+        borrow_book()
+
+    member = input('Odunc verilecek uye:')
+    if member not in table_members.keys():
+        print('Bu uye mevcut degildir')
+        borrow_book()
+
 
     if book_id in table_books and table_books[book_id]["status"]:
         table_books[book_id]["status"] = member
@@ -547,11 +560,11 @@ def add_member():
 
 def about_page():
     print('Digital library management system by Bugra, Ozgur, Talip, Yakup and Samet'
-          'Project for Computer Programming Lab Lecture')
+          '\n Project for Computer Programming Lab Lecture')
 
 
 def main_screen(i, handle=False):
-    print('\n' * 300)
+    print('\n' * 10)
     buttons = [['Kitap Arama', 'get_item(table_books)'],
                ['Kitap Odunc Verme', 'borrow_book()'],
                ['Kitap Teslim Alma', 'return_book()'],
@@ -561,7 +574,7 @@ def main_screen(i, handle=False):
                ['Cikis', 'exit()']]
     i = i % len(buttons)
     if handle:
-        eval({buttons[i][1]})
+        eval(buttons[i][1])
     else:
         for n, button in enumerate(buttons):
             if n == i:
@@ -569,27 +582,27 @@ def main_screen(i, handle=False):
             else:
                 print(button[0])
 
-
-def on_press(key):
-    global i
-    try:
-        if key == kb.Key.up:
+def listen_kb():
+    i = 0
+    while True:
+        if kb.is_pressed("up arrow"):
             i -= 1
             main_screen(i)
-        elif key == kb.Key.down:
+            sleep(0.2)
+        elif kb.is_pressed("down arrow"):
             i += 1
             main_screen(i)
-        elif key == kb.Key.enter:
+            sleep(0.2)
+        elif kb.is_pressed("enter"):
             main_screen(i, True)
-    except AttributeError:
-        print('special key {0} pressed'.format(
-            key))
+            sleep(0.2)
+
+def main():
+    main_screen(0)
+    listen_kb()
 
 if __name__ == '__main__':
-    i = 0
-    main_screen(0)
-    with kb.Listener(on_press=on_press) as listener:
-        listener.join()
+    main()
 
 
 
