@@ -443,7 +443,6 @@ def add_item(table):
                 print('Bilgi bos gecilemez')
         print('Girdi eklendi.')
 
-
 # Borrow and Return functions
 def borrow_book(book_id: str, member: str):
     """Function to borrow a book from the library using its ISBN id.
@@ -561,7 +560,6 @@ def add_member():
 def about_page():
     print('Digital library management system by Bugra, Ozgur, Talip, Yakup and Samet'
           '\n Project for Computer Programming Lab Lecture')
-
 
 def main_screen(i, handle=False):
     print('\n' * 10)
